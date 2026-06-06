@@ -59,7 +59,7 @@ fn main() {
 mod tests {
   // TODO: What do we need to import to have `transformer` in scope?
   use super::Command;
-  use crate::my_module::transformer;
+  use super::my_module::transformer;
 
   #[test]
   fn it_works() {
