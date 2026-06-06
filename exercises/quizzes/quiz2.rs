@@ -18,46 +18,67 @@
 // - The output element is going to be a vector of strings.
 
 enum Command {
-    Uppercase,
-    Trim,
-    Append(usize),
+  Uppercase,
+  Trim,
+  Append(usize),
 }
 
 mod my_module {
-    use super::Command;
+  use super::Command;
 
-    // TODO: Complete the function as described above.
-    // pub fn transformer(input: ???) -> ??? { ??? }
+  // TODO: Complete the function as described above.
+  // pub fn transformer(input: ???) -> ??? { ??? }
+  pub fn transformer(input: Vec<(String, Command)>) -> Vec<String> {
+    let mut output = Vec::new();
+    for i in input {
+      let (str_transform, command) = i;
+      let entry = match command {
+        Command::Uppercase => str_transform.to_uppercase(),
+        Command::Trim => str_transform.trim().to_string(),
+        Command::Append(num) => {
+          let bar = "bar";
+          let mut new_str = str_transform;
+          new_str.push_str(&bar.repeat(num));
+          new_str
+          // one-liner
+          // str_transform + &"bar".repeat(num)
+        },
+      };
+      output.push(entry);
+    }
+
+    output
+  }
 }
 
 fn main() {
-    // You can optionally experiment here.
+  // You can optionally experiment here.
 }
 
 #[cfg(test)]
 mod tests {
-    // TODO: What do we need to import to have `transformer` in scope?
-    // use ???;
-    use super::Command;
+  // TODO: What do we need to import to have `transformer` in scope?
+  use super::Command;
+  use crate::my_module::transformer;
 
-    #[test]
-    fn it_works() {
-        let input = vec![
-            ("hello".to_string(), Command::Uppercase),
-            (" all roads lead to rome! ".to_string(), Command::Trim),
-            ("foo".to_string(), Command::Append(1)),
-            ("bar".to_string(), Command::Append(5)),
-        ];
-        let output = transformer(input);
+  #[test]
+  fn it_works() {
+    let input = vec![
+      ("hello".to_string(), Command::Uppercase),
+      (" all roads lead to rome! ".to_string(), Command::Trim),
+      ("foo".to_string(), Command::Append(1)),
+      ("bar".to_string(), Command::Append(5)),
+    ];
+    let output = transformer(input);
 
-        assert_eq!(
-            output,
-            [
-                "HELLO",
-                "all roads lead to rome!",
-                "foobar",
-                "barbarbarbarbarbar",
-            ]
-        );
-    }
+    assert_eq!(
+      output,
+      [
+        "HELLO",
+        "all roads lead to rome!",
+        "foobar",
+        "barbarbarbarbarbar",
+      ]
+    );
+  }
 }
